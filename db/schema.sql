@@ -1,13 +1,13 @@
+DROP DATABASE IF EXISTS employees;
+CREATE DATABASE employees;
+
+USE employees;
+
 --Department Table:
 --This creates a table called department.  It creates a primary key for the
 --table which is id.  The department name (dept_name) column is not nullable and has
 --a maximum length of 30 characters.  The utilized_budget column is decimal and has an
 --auto-incrementing integer value that starts at 1.
-
-DROP DATABASE IF EXISTS employees;
-CREATE DATABASE employees;
-
-USE employees;
 
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT,
@@ -29,4 +29,29 @@ CREATE TABLE roles (
     department_id INT,
     FOREIGN KEY (department_id) REFERENCES department (id),
     PRIMARY KEY (id)
+);
+
+--Employee Table:
+--This creates a table called employees.  It has the following columns: id, first_name, last_name, emp_dept, salary, and roles_id.
+--The Foreign Key (manager_id) References employee (id), the Foreign Key (roles_id) References roles (id).
+
+CREATE TABLE employees (
+    id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
+    emp_dept VARCHAR(30) NOT NULL,
+    salary DECIMAL NOT NULL,
+    roles_id INT NOT NULL,
+    manager_id INT,
+    FOREIGN KEY (manager_id) REFERENCES employees (id),
+    FOREIGN KEY (roles_id) REFERENCES roles (id),
+    PRIMARY KEY (id)
+);
+
+--Manager Table:
+--This creates a table called manager.  It has an id column and mgr_name column.
+
+CREATE TABLE manager (
+    id INT NOT NULL,
+    mgr_name VARCHAR(30) NOT NULL
 );
