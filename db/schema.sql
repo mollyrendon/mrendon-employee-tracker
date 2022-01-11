@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS employees;
-CREATE DATABASE employees;
+DROP DATABASE IF EXISTS employees_db;
+CREATE DATABASE employees_db;
 
-USE employees;
+USE employees_db;
 
 --Department Table:
 --This creates a table called department.  It creates a primary key for the
@@ -16,8 +16,8 @@ CREATE TABLE department (
     PRIMARY KEY (id)
 ;)
 
---Role Table:
---This creates a table called role.  The pirmary key is the id column.  It also has a title column that can have up to 30 characters
+--Roles Table:
+--This creates a table called roles.  The pirmary key is the id column.  It also has a title column that can have up to 30 characters
 --in it as well as a salary column that has number values.  There is also an optional department_id
 --column which references the department ID of each employee's record in the database.  This code creates two foreign keys,
 --one for employees who work at departments with IDs 1 through 10 and another for employees who work at departments with IDs 11 through 20.
@@ -31,7 +31,7 @@ CREATE TABLE roles (
     PRIMARY KEY (id)
 );
 
---Employee Table:
+--Employees Table:
 --This creates a table called employees.  It has the following columns: id, first_name, last_name, emp_dept, salary, and roles_id.
 --The Foreign Key (manager_id) References employee (id), the Foreign Key (roles_id) References roles (id).
 
