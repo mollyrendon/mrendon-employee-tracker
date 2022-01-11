@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS employees_db;
-CREATE DATABASE employees_db;
+DROP DATABASE IF EXISTS employees;
+CREATE DATABASE employees;
 
-USE employees_db;
+USE employees;
 
 --Department Table:
 --This creates a table called department.  It creates a primary key for the
@@ -12,7 +12,7 @@ USE employees_db;
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT,
     dept_name VARCHAR(30) NOT NULL,
-    utilized_budget DECIMAL,
+    budget DECIMAL,
     PRIMARY KEY (id)
 ;)
 
