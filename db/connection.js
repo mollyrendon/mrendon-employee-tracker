@@ -18,3 +18,41 @@ let connection = mysql.createConnection({
     database: "employees"
 })
 
+/*Add Employees Function:
+This function will use the inquirer prompt to ask the user several questions to add a new employee.
+It asks for the first name, last name, department, salary, and manager.  The department and manager prompts give the user
+a list to choose options from and the rest of the prompts are input prompts for the user to type their answers.
+*/
+function addEmployees() {
+    inquirer
+    .prompt([
+        {
+            name: "newEmpFirstName",
+            type: "input",
+            message: "What is the first name of the employee? (Required.)"
+        },
+        {
+            name: "newEmpLastName",
+            type: "input",
+            message: "What is the last name of the employee? (Required.)" 
+        },
+        {
+            name: "newEmpDept",
+            type: "list",
+            message: "What is the department of the employee? (Required)",
+            choices: ['Diplomatic Relations', 'Ship Security', 'Medical Personel', 'Assistants', 'AnlaShok']
+        },
+        {
+            name: "newEmpSalary",
+            type: "input",
+            message: "What is the salary of the employee? (Required)"
+        },
+        {
+            name: "newEmpManager",
+            type: "list",
+            message: "Who will be the manager of the employee? (Required)",
+            choices: ['John Sheridan', 'Delenn', 'Michael Garibaldi']
+        }
+    ])
+}
+
