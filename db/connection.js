@@ -18,6 +18,23 @@ let connection = mysql.createConnection({
     database: "employees"
 })
 
+/*Connection:
+This creates a new connection object, the fonnection is then connected to the function that will run when it's created.
+The connection is then connected to the function that will run when it's created.  It will log "connected as id" and runs the search function.  
+*/
+connection.connect(function(err) {
+    if (err) throw err;
+    console.log("connected as id" + connection.threadID + "\n");
+    runSearch();
+})
+
+/*Run Search:
+This inquirer prompt gives the user a list of choices for what they would like to do.  After the user gives an answer it will
+
+*/
+
+
+
 /*Add Employees Function:
 This function will use the inquirer prompt to ask the user several questions to add a new employee.
 It asks for the first name, last name, department, salary, and manager.  The department and manager prompts give the user
