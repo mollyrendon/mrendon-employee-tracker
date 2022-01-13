@@ -17,7 +17,7 @@ let connection = mysql.createConnection({
     user: "root",
 
     password: "dog-fan-45-twenty!",
-    database: "employees"
+    database: "employee"
 })
 
 
@@ -46,7 +46,7 @@ function runSearch() {
         choices: ["View all departments.", "View all employees.", "View all employees by department.", "View all employees by manager.", "Add employee.", "Remove employee.", "Update employee role.", "Update employee manager.", "End session."]
     })
     .then(function(answer) {
-        switch (answewr.userChoices) {
+        switch (answer.userChoices) {
             case "View all departments.":
                 viewDepartments();
                 break;
@@ -74,10 +74,6 @@ function runSearch() {
             case "Update employee role.":
                 updateEmpRole();
                 break;
-
-                case "Update employee manager.":
-                    updateEmpMgr();
-                    break;
 
                 case "End session.":
                     endSession();
@@ -234,17 +230,17 @@ using JavaScript's Array method push().  After that another function called "rol
         inquirer
         .prompt([
             {
-                name: "empUpdate",
+                name: "choice",
                 type: "rawlist",
                 message: "Which employee's role do you want to update?",
                 choices: function() {
-                    let empUpdateArray = [];
+                    let choiceArray = [];
                         for (let i=1; i < results.length; i++) {
                             let emp = "";
                             emp = `${results[i].id} ${results[i].first_name} ${results[i].last_name} ${results[i].dept_name} ${results[i].roles_id} ${results[i].title}`
-                            empUpdateArray.push(emp)
+                            choiceArray.push(emp)
                         }
-                        return empUpdateArray;
+                        return choiceArray;
                 }
             },
             {
@@ -275,17 +271,17 @@ function removeEmployee() {
         inquirer
         .prompt([
             {
-                name: "empRmv",
+                name: "choice",
                 type: "rawlist",
                 message: "What employee do you want to remove?",
                 choices: function() {
-                    let empRmvArray = [];
+                    let choiceArray = [];
                         for (let i=1; i < results.length; i++) {
                             let emp = "";
                             emp = `${results[i].id} ${results[i].first_name} ${results[i].last_name}`
-                            empRmvArray.push(emp)
+                            choiceArray.push(emp)
                         }
-                        return empRmvArray;
+                        return choiceArray;
                 }
             }
         ])
@@ -296,8 +292,30 @@ function removeEmployee() {
     })
 }
 
+/*Delete Removed Employee:
+This starts by declaring a variable called answer, the value of the answer is set to employee 1.  The code then declares a function called deleteRemovedEmp, which takes one argument, an employee's ID
+number.  This function will be used later in the program to delete that specific employee from the database.  The next part splits up the string into individual characters and assigns them to
+variables named choiceStr and connection.  Next, it uses connection's query method with two arguments, "DELETE FROM employee WHERE?"" and [{id: paseInt(choiceStr[0])}].  The first argument is where we 
+specify what table we want to query (employee) while the second argument is an array of values for each row in that table (the id).  If there are no erros this function returns true, returns the data.  If
+false then it throws an error message on the screen.
+*/
+
 function deleteRemovedEmp(answer) {
-    let 
+    let choiceStr = answer.choice.split("");
+    connection.query(
+        "DELETE FROM employee WHERE?",
+        [
+            {
+                id: parseInt(choiceStr[0])
+            }
+        ],
+
+        function(error, res) {
+            if (error) throw error;
+            console.log(res.affectedRows + "You have DELETED the Employee!");
+        runSearch();
+        }
+    )
 }
 
 
