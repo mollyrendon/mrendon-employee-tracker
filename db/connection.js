@@ -7,6 +7,7 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const { CLIENT_SECURE_CONNECTION } = require("mysql/lib/protocol/constants/client");
+const Query = require("mysql/lib/protocol/sequences/Query");
 
 let connection = mysql.createConnection({
     host: "localhost",
@@ -44,7 +45,7 @@ function runSearch() {
         message: "What would you like to do?",
         choices: ["View all departments.", "View all employees.", "View all employees by department.", "View all employees by manager.", "Add employee.", "Remove employee.", "Update employee role.", "Update employee manager.", "End session."]
     })
-    .then(function(answewr) {
+    .then(function(answer) {
         switch (answewr.userChoices) {
             case "View all departments.":
                 viewDepartments();
@@ -101,8 +102,56 @@ function viewDepartments() {
     })
 }
 
+/*View Employees Function:
+The function queries the database for all employees and all related information, id, first_name, last_name, dept_name, salary, roles_title and mrg_name.  
+*/
+function viewEmployees() {
+    let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.salary, roles.title, mrg_name";
+    query += "FROM employee";
+    query += "INNER JOIN department ON employee.emp_dept = department.dept_name";
+    query += "INNER JOIN roles ON department.id = roles.department_id";
+    query += "LEFT JOIN manager ON employee.manager_id = maager.id";
+
+    connection.query(query, function (err, res) {
+        console.table('All Employees', res);
+        reunSearch()
+    })
+}
+
+/*View Employees by Department Function:
+This function queries the database for all of the employees in a given department.  The code first creates a SQL query that will 
+return the employee's ID, first_name, last_name, and salary. It then finds the department by using a join statement with another table called "department"
+and then orders them by their department number.  
+
+*/
+function viewEmpsByDept() {
+    let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.salary, roles.tile, mgr_name";
+    query += "FROM department";
+    query += "INNER JOIN department ON employee.emp_dept = department.dept_name";
+    query += "ORDER BY department.dept_name";
+
+    connection.query(query, function (err, res){
+        console.table('Employees by Department', res);
+        runSearch()
+    })
+}
 
 
+/*View Employees by Manager Function:
+This function queries the database for all of the employees who are managed by a given manager.  This code first creates a query that will return all
+managers and their associated employee info.  It then orders the results by manager name.  This code will be executed when the viewEmpsByMgr()
+function is called.  
+*/
+function viewEmpsByMgr() {
+    let query = "SELECT manager.id, manager.mgr_name, employee.first_name, employee.last_name";
+    query += "FROM manager";
+    query += "INNER JOIN employee ON manager.id = employee.manager_id";
+    query += "ORDER BY manager.mgr_name";
+    connection.query(query, function (err, res){
+        console.table('Employees By Manager', res);
+        runSearch()
+    })
+}
 
 
 /*Add Employees Function:
@@ -139,6 +188,12 @@ function addEmployees() {
             type: "list",
             message: "Who will be the manager of the employee? (Required)",
             choices: ['John Sheridan', 'Delenn', 'Michael Garibaldi']
+        },
+        {
+            name: "newEmpRole",
+            type: "list",
+            message: "What will the role of the new employee be? (Required)",
+            choices: ['Diplomat', 'Security Officer', 'Doctor', 'Diplomat Assistants', 'Ranger']
         }
     ])
 }

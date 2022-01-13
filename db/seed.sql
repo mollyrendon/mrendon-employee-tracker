@@ -20,7 +20,7 @@ VALUES ('Captain/First Officer', 1000000, 100),
         ('Diplomat Assistants', 100000, 60),
         ('Ranger', 125000, 50);
 
-INSERT INTO employees (first_name, last_name, emp_dept, salary, manager_id, roles_id)
+INSERT INTO employee (first_name, last_name, emp_dept, salary, manager_id, roles_id)
 VALUES ('John', 'Sheridan', 'Command Staff' '1000000', null, 100),
         ('Susan', 'Ivanova', 'Command Staff', '1000000', 100, 100),
         ('Ambassador', 'Delenn', 'Diplomatic Relations', 300000, null, 90),

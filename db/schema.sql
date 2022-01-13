@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS employees;
-CREATE DATABASE employees;
+DROP DATABASE IF EXISTS employee;
+CREATE DATABASE employee;
 
-USE employees;
+USE employee;
 
 --Department Table:
 --This creates a table called department.  It creates a primary key for the
@@ -31,11 +31,11 @@ CREATE TABLE roles (
     PRIMARY KEY (id)
 );
 
---Employees Table:
---This creates a table called employees.  It has the following columns: id, first_name, last_name, emp_dept, salary, and roles_id.
+--Employee Table:
+--This creates a table called employee.  It has the following columns: id, first_name, last_name, emp_dept, salary, and roles_id.
 --The Foreign Key (manager_id) References employee (id), the Foreign Key (roles_id) References roles (id).
 
-CREATE TABLE employees (
+CREATE TABLE employee (
     id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE employees (
     salary DECIMAL NOT NULL,
     roles_id INT NOT NULL,
     manager_id INT,
-    FOREIGN KEY (manager_id) REFERENCES employees (id),
+    FOREIGN KEY (manager_id) REFERENCES employee (id),
     FOREIGN KEY (roles_id) REFERENCES roles (id),
     PRIMARY KEY (id)
 );
