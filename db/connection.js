@@ -119,7 +119,7 @@ function viewEmployees() {
 }
 
 /*View Employees by Department Function:
-This function queries the database for all of the employees in a given department.  The code first creates a SQL query that will 
+This function queries the database for all of the employees in a given department.  The code first creates a query that will 
 return the employee's ID, first_name, last_name, and salary. It then finds the department by using a join statement with another table called "department"
 and then orders them by their department number.  
 
@@ -139,8 +139,7 @@ function viewEmpsByDept() {
 
 /*View Employees by Manager Function:
 This function queries the database for all of the employees who are managed by a given manager.  This code first creates a query that will return all
-managers and their associated employee info.  It then orders the results by manager name.  This code will be executed when the viewEmpsByMgr()
-function is called.  
+managers and their associated employee info and then orders the results by manager name.  
 */
 function viewEmpsByMgr() {
     let query = "SELECT manager.id, manager.mgr_name, employee.first_name, employee.last_name";
@@ -154,12 +153,12 @@ function viewEmpsByMgr() {
 }
 
 
-/*Add Employees Function:
+/*Add Employee Function:
 This function will use the inquirer prompt to ask the user several questions to add a new employee.
 It asks for the first name, last name, department, salary, and manager.  The department and manager prompts give the user
 a list to choose options from and the rest of the prompts are input prompts for the user to type their answers.
 */
-function addEmployees() {
+function addEmployee() {
     inquirer
     .prompt([
         {
@@ -196,5 +195,115 @@ function addEmployees() {
             choices: ['Diplomat', 'Security Officer', 'Doctor', 'Diplomat Assistants', 'Ranger']
         }
     ])
+
+
+/*New Employee Manager Function:
+*/
+
+    // .then(function(answer) {
+    //     var newEmpsMgr = ""
+
+    //     if (answer.newEmpManager ==)
+    // })
+
+
+
 }
 
+
+/*Update Employee Role Function:
+This function queries the database to find the employee's department and role.  It queries the database for the employee's id and then finds their first_name, last_name,
+and dept_name.  It then finds the employee's roles in that department and then uses those results to find out which employees are in what role.  
+*/
+function updateEmpRole() {
+    let query = "SELECT employee.id, employee.first_name, employee.last_name, departmet.dept_name, employee.roles_id, roles.title";
+    query += "FROM employee";
+    query += "INNER JOIN department ON employee.emp_dept = department.dept_name";
+    query += "Inner JOIN roles ON department.id = roles.department_id";
+
+    connection.query(query, function(err, results) {
+        if (err) throw err;
+
+
+/*Employee Update prompt and Function:
+This function and prompt asks the user for their choice of employee's role.  It updates the employee's role based off of the user's answer.  The choices part of the prompt is different because instead of having 
+pre selected choices, instead an array called "results" is declared, with one element insde it (which is an empty string).  Meaning, there are no results yet because no questions have been asked yet.
+Next, another called called "empUpdateArray" is called, this array will hold all of the employees who have been updated so far.  A new variable called "empUpdateArray" is created and will push each employee into it 
+using JavaScript's Array method push().  After that another function called "roleUpdate" is declared and it takes one argument, a list, and returns whatever list was passed in as its message property.    
+*/
+        inquirer
+        .prompt([
+            {
+                name: "empUpdate",
+                type: "rawlist",
+                message: "Which employee's role do you want to update?",
+                choices: function() {
+                    let empUpdateArray = [];
+                        for (let i=1; i < results.length; i++) {
+                            let emp = "";
+                            emp = `${results[i].id} ${results[i].first_name} ${results[i].last_name} ${results[i].dept_name} ${results[i].roles_id} ${results[i].title}`
+                            empUpdateArray.push(emp)
+                        }
+                        return empUpdateArray;
+                }
+            },
+            {
+                name: "roleUpdate",
+                type: "list",
+                message: "What role do you want to update this employee's role to?",
+                choices: ['Security Officer', 'Doctor', 'Diplomat Assistants', 'Ranger']
+            }
+        ])
+
+        .then(function(answer){
+            updateToChosenRole(answer);
+            return answer;
+        })
+    })
+}
+
+/*Remove Employee Function:
+
+
+*/
+function removeEmployee() {
+    let query = "SELECT employee.id, employee.first_name, employee.last_name";
+    query += "FROM employee";
+    connection.query(query, function(err, results){
+        if (err) throw err;
+
+        inquirer
+        .prompt([
+            {
+                name: "empRmv",
+                type: "rawlist",
+                message: "What employee do you want to remove?",
+                choices: function() {
+                    let empRmvArray = [];
+                        for (let i=1; i < results.length; i++) {
+                            let emp = "";
+                            emp = `${results[i].id} ${results[i].first_name} ${results[i].last_name}`
+                            empRmvArray.push(emp)
+                        }
+                        return empRmvArray;
+                }
+            }
+        ])
+            .then(function(answer){
+                deleteRemovedEmp(answer);
+                return answer;
+            })
+    })
+}
+
+function deleteRemovedEmp(answer) {
+    let 
+}
+
+
+
+
+function endSession() {
+    console.log("End of session.  Thank you and goodbye!");
+    connection.end();
+}

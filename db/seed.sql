@@ -39,7 +39,7 @@ VALUES (100, 'John Sheridan'),
         (90, 'Delenn'),
         (80, 'Michael Garibaldi');
 
-SELECT * FROM employees;
+SELECT * FROM employee;
 SELECT * FROM roles;
 SELECT * FROM department;
 SELECT * FROM manager;
