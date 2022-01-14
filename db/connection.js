@@ -99,7 +99,7 @@ function viewDepartments() {
 }
 
 /*View Employees Function:
-The function queries the database for all employees and all related information, id, first_name, last_name, dept_name, salary, roles_title and mrg_name.  
+The function queries the database for all employees and all related information, id, first_name, last_name, dept_name, salary, roles_title and mrg_name.  It uses the INNER JOIN statement to join the 
 */
 function viewEmployees() {
     let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.salary, roles.title, mrg_name";
@@ -116,8 +116,8 @@ function viewEmployees() {
 
 /*View Employees by Department Function:
 This function queries the database for all of the employees in a given department.  The code first creates a query that will 
-return the employee's ID, first_name, last_name, and salary. It then finds the department by using a join statement with another table called "department"
-and then orders them by their department number.  
+return the employee's ID, first_name, last_name, and salary. It then finds the department by using a join statement, INNER JOIN, with another table called "department"
+and then orders them, ORDER BY statement, by their department number.  
 
 */
 function viewEmpsByDept() {
@@ -134,8 +134,9 @@ function viewEmpsByDept() {
 
 
 /*View Employees by Manager Function:
-This function queries the database for all of the employees who are managed by a given manager.  This code first creates a query that will return all
-managers and their associated employee info and then orders the results by manager name.  
+This function queries the database for all of the employees who are managed by a given manager.  The two tables, employee info and manager info, are joined together using INNER JOIN so that each row has both
+colums filled out with data from both tables, the id column is shared between then.  It then orders these row alphabeticalled based on their mgr_name field using ORDER BY class at the end of the statement.  This will
+print out a table of employees by their manager.  
 */
 function viewEmpsByMgr() {
     let query = "SELECT manager.id, manager.mgr_name, employee.first_name, employee.last_name";
@@ -259,8 +260,8 @@ function addEmployee() {
 
 
 /*Update Employee Role Function:
-This function queries the database to find the employee's department and role.  It queries the database for the employee's id and then finds their first_name, last_name,
-and dept_name.  It then finds the employee's roles in that department and then uses those results to find out which employees are in what role.  
+This function queries the database to find all employees in a department and their respective roles.  It uses the INNER JOIN statement to join the employee table with the department table.  
+The query then uses an OUTER JOIN statement to join the roles table with the department and employee tables.  
 */
 function updateEmpRole() {
     let query = "SELECT employee.id, employee.first_name, employee.last_name, departmet.dept_name, employee.roles_id, roles.title";
@@ -310,8 +311,10 @@ using JavaScript's Array method push().  After that another function called "rol
 }
 
 /*Remove Employee Function:
-
-
+This function asks the user, through an inquirer prompt, what employee they want to remove.  Then it queries for all employees from our database using connection.query().  As long as there isn't an error
+the information about every employee in the database, their id, first_name, and last_name gets returned.  This information is used to create an array called choiceArray that contains all possible combinations
+of the employee id, first_name, and last_name.  Now having access to these combinations it makes it easier and quicker to find the employee the user wants to remove.  After choosing from the list of employees
+the user is then able to remove the employee of their choice.
 */
 function removeEmployee() {
     let query = "SELECT employee.id, employee.first_name, employee.last_name";
@@ -347,8 +350,8 @@ function removeEmployee() {
 This starts by declaring a variable called answer, the value of the answer is set to employee 1.  The code then declares a function called deleteRemovedEmp, which takes one argument, an employee's ID
 number.  This function will be used later in the program to delete that specific employee from the database.  The next part splits up the string into individual characters and assigns them to
 variables named choiceStr and connection.  Next, it uses connection's query method with two arguments, "DELETE FROM employee WHERE?"" and [{id: paseInt(choiceStr[0])}].  The first argument is where we 
-specify what table we want to query (employee) while the second argument is an array of values for each row in that table (the id).  If there are no erros this function returns true, returns the data.  If
-false then it throws an error message on the screen.
+specify what table we want to query (employee) while the second argument is an array of values for each row in that table (the id).  If there are no erros this function returns true it returns the data, 
+the employee is deleted and the console.log message informing the user appears.  If false then it throws an error message on the screen.
 */
 
 function deleteRemovedEmp(answer) {
