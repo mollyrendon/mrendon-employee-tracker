@@ -6,8 +6,6 @@ The host is "localhost", the port is "3306", the user is "root" and the password
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
-const { CLIENT_SECURE_CONNECTION } = require("mysql/lib/protocol/constants/client");
-const Query = require("mysql/lib/protocol/sequences/Query");
 
 let connection = mysql.createConnection({
     host: "localhost",
@@ -22,8 +20,7 @@ let connection = mysql.createConnection({
 
 
 /*Connection:
-This creates a new connection object, the fonnection is then connected to the function that will run when it's created.
-The connection is then connected to the function that will run when it's created.  It will log "connected as id" and runs the search function.  
+A new connection object is created with the connect() method which takes in a callback function that will be called when the connection has been established.  The callback function then calls runSearch().
 */
 connection.connect(function(err) {
     if (err) throw err;
@@ -75,9 +72,9 @@ function runSearch() {
                 updateEmpRole();
                 break;
 
-                case "End session.":
-                    endSession();
-                    break;
+            case "End session.":
+                endSession();
+                break;
         }
     });
 }
@@ -103,14 +100,14 @@ The function queries the database for all employees and all related information,
 */
 function viewEmployees() {
     let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.salary, roles.title, mrg_name";
-    query += "FROM employee";
-    query += "INNER JOIN department ON employee.emp_dept = department.dept_name";
-    query += "INNER JOIN roles ON department.id = roles.department_id";
-    query += "LEFT JOIN manager ON employee.manager_id = maager.id";
+    query += "FROM employee ";
+    query += "INNER JOIN department ON employee.emp_dept = department.dept_name ";
+    query += "INNER JOIN roles ON department.id = roles.department_id ";
+    query += "LEFT JOIN manager ON employee.manager_id = manager.id ";
 
     connection.query(query, function (err, res) {
         console.table('All Employees', res);
-        reunSearch()
+        runSearch()
     })
 }
 
@@ -193,23 +190,19 @@ function addEmployee() {
         }
     ])
 
-
-/*New Employee Manager Function:
-*/
-
     .then(function(answer) {
         var newEmpsMgr = ""
 
         if (answer.newEmpManager === "John Sheridan") {
-            newEmpsMgr = 100;
+            newEmpsMgr = 1;
         }
 
         if (answer.newEmpManager === "Ambassador Delenn") {
-            newEmpsMgr = 90;
+            newEmpsMgr = 2;
         }
 
         if (answer.newEmpManager === "Michael Garibaldi") {
-            newEmpsMgr = 80;
+            newEmpsMgr = 3;
         }
 
         if(answer.newEmpManager === "No one") {
@@ -219,23 +212,23 @@ function addEmployee() {
         var newEmpsRole = "";
 
         if (answer.newEmpRole === "Diplomat") {
-            newEmpsRole = 90;
+            newEmpsRole = 2;
         }
 
         if (answer.newEmpRole === "Security Officer") {
-            newEmpsRole = 80;
+            newEmpsRole = 3;
         }
 
         if (answer.newEmpRole === "Doctor") {
-            newEmpsRole = 70;
+            newEmpsRole = 4;
         }
 
         if (answer.newEmpRole === "Diplomat Assistance") {
-            newEmpsRole = 60;
+            newEmpsRole = 5;
         }
 
         if (answer.newEmpRole === "Ranger") {
-            newEmpsRole = 50;
+            newEmpsRole = 6;
         }
 
         var query = connection.query(
