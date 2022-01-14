@@ -36,7 +36,7 @@ VALUES ('John', 'Sheridan', 'Command Staff' '1000000', null, 100),
 
 INSERT INTO manager (id, mgr_name)
 VALUES (100, 'John Sheridan'),
-        (90, 'Delenn'),
+        (90, ' Ambassador Delenn'),
         (80, 'Michael Garibaldi');
 
 SELECT * FROM employee;

@@ -18,7 +18,7 @@ let connection = mysql.createConnection({
 
     password: "dog-fan-45-twenty!",
     database: "employee"
-})
+});
 
 
 /*Connection:
@@ -29,7 +29,7 @@ connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id" + connection.threadID + "\n");
     runSearch();
-})
+});
 
 
 /*Run Search:
@@ -182,7 +182,7 @@ function addEmployee() {
             name: "newEmpManager",
             type: "list",
             message: "Who will be the manager of the employee? (Required)",
-            choices: ['John Sheridan', 'Delenn', 'Michael Garibaldi']
+            choices: ['John Sheridan', 'Delenn', 'Michael Garibaldi', "No one"]
         },
         {
             name: "newEmpRole",
@@ -196,14 +196,65 @@ function addEmployee() {
 /*New Employee Manager Function:
 */
 
-    // .then(function(answer) {
-    //     var newEmpsMgr = ""
+    .then(function(answer) {
+        var newEmpsMgr = ""
 
-    //     if (answer.newEmpManager ==)
-    // })
+        if (answer.newEmpManager === "John Sheridan") {
+            newEmpsMgr = 100;
+        }
 
+        if (answer.newEmpManager === "Ambassador Delenn") {
+            newEmpsMgr = 90;
+        }
 
+        if (answer.newEmpManager === "Michael Garibaldi") {
+            newEmpsMgr = 80;
+        }
 
+        if(answer.newEmpManager === "No one") {
+            newEmpsMgr = null;
+        }
+
+        var newEmpsRole = "";
+
+        if (answer.newEmpRole === "Diplomat") {
+            newEmpsRole = 90;
+        }
+
+        if (answer.newEmpRole === "Security Officer") {
+            newEmpsRole = 80;
+        }
+
+        if (answer.newEmpRole === "Doctor") {
+            newEmpsRole = 70;
+        }
+
+        if (answer.newEmpRole === "Diplomat Assistance") {
+            newEmpsRole = 60;
+        }
+
+        if (answer.newEmpRole === "Ranger") {
+            newEmpsRole = 50;
+        }
+
+        var query = connection.query(
+            "INSERT INTO employee SET?",
+            {
+                first_name: answer.newEmpFirstName,
+                last_name: answer.newEmpLastName,
+                emp_dept: answer.newEmpDept,
+                salary: answer.newEmpSalary,
+                roles_id: newEmpsRole,
+                manager_id: newEmpsMgr 
+            },
+
+            function (err, res) {
+                if (err) throw err;
+                console.log(res.affectedRows + "employee added!\n");
+                reunSearch()
+            }
+        )
+    })
 }
 
 
@@ -317,9 +368,6 @@ function deleteRemovedEmp(answer) {
         }
     )
 }
-
-
-
 
 function endSession() {
     console.log("End of session.  Thank you and goodbye!");
