@@ -40,7 +40,7 @@ function runSearch() {
         name:"userChoices",
         type: "list",
         message: "What would you like to do?",
-        choices: ["View all departments.", "View all employees.", "View all employees by department.", "View all employees by manager.", "Add employee.", "Remove employee.", "Update employee role.", "Update employee manager.", "End session."]
+        choices: ["View all departments.", "View all employees.", "View all employees by department.", "View all employees by manager.", "Add employee.", "Remove employee.", "Update employee role.", "End session."]
     })
     .then(function(answer) {
         switch (answer.userChoices) {
@@ -88,7 +88,7 @@ there are no errors it continues executing the code, if there is an error it sto
 */
 
 function viewDepartments() {
-    connection.query("Select id, dept_name, budget FROM department", function (err, res){
+    connection.query("SELECT id, dept_name, budget FROM department", function (err, res){
         if (err) throw err;
         console.table('Departments', res);
         runSearch()
@@ -99,13 +99,14 @@ function viewDepartments() {
 The function queries the database for all employees and all related information, id, first_name, last_name, dept_name, salary, roles_title and mrg_name.  It uses the INNER JOIN statement to join the 
 */
 function viewEmployees() {
-    let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.salary, roles.title, mrg_name";
+    let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.salary, roles.title, mgr_name ";
     query += "FROM employee ";
     query += "INNER JOIN department ON employee.emp_dept = department.dept_name ";
     query += "INNER JOIN roles ON department.id = roles.department_id ";
     query += "LEFT JOIN manager ON employee.manager_id = manager.id ";
 
     connection.query(query, function (err, res) {
+        if (err) throw err;
         console.table('All Employees', res);
         runSearch()
     })
@@ -118,12 +119,13 @@ and then orders them, ORDER BY statement, by their department number.
 
 */
 function viewEmpsByDept() {
-    let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.salary, roles.tile, mgr_name";
-    query += "FROM department";
-    query += "INNER JOIN department ON employee.emp_dept = department.dept_name";
-    query += "ORDER BY department.dept_name";
+    let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name ";
+    query += "FROM department ";
+    query += "INNER JOIN employee ON employee.emp_dept = department.dept_name ";
+    query += "ORDER BY department.dept_name ";
 
     connection.query(query, function (err, res){
+        if (err) throw err;
         console.table('Employees by Department', res);
         runSearch()
     })
@@ -136,11 +138,12 @@ colums filled out with data from both tables, the id column is shared between th
 print out a table of employees by their manager.  
 */
 function viewEmpsByMgr() {
-    let query = "SELECT manager.id, manager.mgr_name, employee.first_name, employee.last_name";
-    query += "FROM manager";
-    query += "INNER JOIN employee ON manager.id = employee.manager_id";
-    query += "ORDER BY manager.mgr_name";
+    let query = "SELECT manager.id, manager.mgr_name, employee.first_name, employee.last_name ";
+    query += "FROM manager ";
+    query += "INNER JOIN employee ON manager.id = employee.manager_id ";
+    query += "ORDER BY manager.mgr_name ";
     connection.query(query, function (err, res){
+        if (err) throw err;
         console.table('Employees By Manager', res);
         runSearch()
     })
@@ -152,7 +155,7 @@ This function will use the inquirer prompt to ask the user several questions to 
 It asks for the first name, last name, department, salary, and manager.  The department and manager prompts give the user
 a list to choose options from and the rest of the prompts are input prompts for the user to type their answers.
 */
-function addEmployee() {
+function addEmployees() {
     inquirer
     .prompt([
         {
@@ -191,7 +194,7 @@ function addEmployee() {
     ])
 
     .then(function(answer) {
-        var newEmpsMgr = ""
+        var newEmpsMgr = " "
 
         if (answer.newEmpManager === "John Sheridan") {
             newEmpsMgr = 1;
@@ -209,7 +212,7 @@ function addEmployee() {
             newEmpsMgr = null;
         }
 
-        var newEmpsRole = "";
+        var newEmpsRole = " ";
 
         if (answer.newEmpRole === "Diplomat") {
             newEmpsRole = 2;
@@ -232,7 +235,7 @@ function addEmployee() {
         }
 
         var query = connection.query(
-            "INSERT INTO employee SET?",
+            "INSERT INTO employee SET? ",
             {
                 first_name: answer.newEmpFirstName,
                 last_name: answer.newEmpLastName,
@@ -244,8 +247,8 @@ function addEmployee() {
 
             function (err, res) {
                 if (err) throw err;
-                console.log(res.affectedRows + "employee added!\n");
-                reunSearch()
+                console.log(res.affectedRows + " employee added!\n");
+                runSearch()
             }
         )
     })
@@ -257,10 +260,10 @@ This function queries the database to find all employees in a department and the
 The query then uses an OUTER JOIN statement to join the roles table with the department and employee tables.  
 */
 function updateEmpRole() {
-    let query = "SELECT employee.id, employee.first_name, employee.last_name, departmet.dept_name, employee.roles_id, roles.title";
-    query += "FROM employee";
-    query += "INNER JOIN department ON employee.emp_dept = department.dept_name";
-    query += "Inner JOIN roles ON department.id = roles.department_id";
+    let query = "SELECT employee.id, employee.first_name, employee.last_name, departmet.dept_name, employee.roles_id, roles.title ";
+    query += "FROM employee ";
+    query += "INNER JOIN department ON employee.emp_dept = department.dept_name ";
+    query += "Inner JOIN roles ON department.id = roles.department_id ";
 
     connection.query(query, function(err, results) {
         if (err) throw err;
@@ -310,9 +313,9 @@ of the employee id, first_name, and last_name.  Now having access to these combi
 the user is then able to remove the employee of their choice.
 */
 function removeEmployee() {
-    let query = "SELECT employee.id, employee.first_name, employee.last_name";
-    query += "FROM employee";
-    connection.query(query, function(err, results){
+    let query = "SELECT employee.id, employee.first_name, employee.last_name ";
+    query += "FROM employee ";
+    connection.query(query, function(err, results) {
         if (err) throw err;
 
         inquirer
@@ -324,7 +327,7 @@ function removeEmployee() {
                 choices: function() {
                     let choiceArray = [];
                         for (let i=1; i < results.length; i++) {
-                            let emp = "";
+                            let emp = " ";
                             emp = `${results[i].id} ${results[i].first_name} ${results[i].last_name}`
                             choiceArray.push(emp)
                         }

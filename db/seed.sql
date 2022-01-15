@@ -1,6 +1,6 @@
 /* Insert/Values:
-This file is for all of the section values: dept_name, budget, title, etc.  This keeps all of the values separateb to make it easier to view the values and modify them.
-"The SELECT * FROM employees" means that that it will take all of the values from the employees table .  */
+This file is for all of the section values: dept_name, budget, title, etc.  This keeps all of the values separateb to make it easier to view the values and modify them.  */
+
 USE employee;
 INSERT INTO department (dept_name, budget)
 VALUES ('Command Staff', 2000000),
