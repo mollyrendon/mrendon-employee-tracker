@@ -283,7 +283,7 @@ using JavaScript's Array method push().  After that another function called "rol
                 choices: function() {
                     let choiceArray = [];
                         for (let i=1; i < results.length; i++) {
-                            let emp = " ";
+                            let emp = "";
                             emp = `${results[i].id} ${results[i].first_name} ${results[i].last_name} ${results[i].dept_name} ${results[i].roles_id} ${results[i].title}`
                             choiceArray.push(emp)
                         }
@@ -303,6 +303,12 @@ using JavaScript's Array method push().  After that another function called "rol
             return answer;
         })
     })
+}
+
+function updateToChosenRole(answer) {
+    newRolesID = "";
+    newDept = "";
+    newMgr = "";
 }
 
 /*Remove Employee Function:
