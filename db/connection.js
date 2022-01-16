@@ -306,9 +306,58 @@ using JavaScript's Array method push().  After that another function called "rol
 }
 
 function updateToChosenRole(answer) {
-    newRolesID = "";
+    newRoleId = "";
     newDept = "";
     newMgr = "";
+
+    if (answer.roleUpdate === "Diplomat") {
+        newRoleId = 2;
+        newDept = "Diplomatic Relations";
+        newMgr = 2;
+    }
+    if (answer.roleUpdate === "Ship Security") {
+        newRoleId = 3;
+        newDept = "Security Officer";
+        newMgr = 3;
+    }
+    if (answer.roleUpdate === "Medical Personel") {
+        newRoleId = 4;
+        newDept = "Doctor";
+        newMgr = 1;
+    }
+    if (answer.roleUpdate === "Assistants") {
+        newRoleId = 5;
+        newDept = "Diplomat Assistants";
+        newMgr = 2;
+    }
+    if (answer.roleUpdate === "Anlashok") {
+        newRoleId = 6;
+        newDept = "Ranger";
+        newMgr = 2;
+    }
+
+    let choiceStr = answer.choice.split(" ")
+    console.log(answer);
+    console.log(choiceStr[0]);
+
+    connection.query(
+        "UPDATE employee SET ? WHERE ? ",
+        [
+            {
+                roles_id: newRoleId,
+                emp_dept: newDept, 
+                manager_id: newMgr
+            },
+            {
+                id: parseInt(choiceStr[0])
+            }
+        ],
+        function(error, res) {
+            if (error) throw error;
+            console.log(res.affectedRows + " You have UPDATED the role of the employee!");
+            runSearch();
+        }
+    )
 }
 
 /*Remove Employee Function:
