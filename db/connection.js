@@ -306,9 +306,9 @@ using JavaScript's Array method push().  After that another function called "rol
 }
 
 function updateToChosenRole(answer) {
-    newRoleId = "";
-    newDept = "";
-    newMgr = "";
+    let newRoleId = 0;
+    let newDept = "";
+    let newMgr = "";
 
     if (answer.roleUpdate === "Diplomat") {
         newRoleId = 2;

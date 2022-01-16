@@ -5,7 +5,7 @@ USE employee;
 
 /*Department Table:
 This creates a table called department.  It creates a primary key for the
-table which is id.  The department name (dept_name) column is not nullable and has
+table which is id.  The department name (dept_name) column has
 a maximum length of 30 characters.  The utilized_budget column is decimal and has an
 auto-incrementing integer value that starts at 1. */
 
