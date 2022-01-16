@@ -225,7 +225,7 @@ function addEmployees() {
             newEmpsRole = 4;
         }
 
-        if (answer.newEmpRole === "Diplomat Assistance") {
+        if (answer.newEmpRole === "Diplomat Assistants") {
             newEmpsRole = 5;
         }
 
@@ -234,7 +234,7 @@ function addEmployees() {
         }
 
         var query = connection.query(
-            "INSERT INTO employee SET? ",
+            "INSERT INTO employee SET ?",
             {
                 first_name: answer.newEmpFirstName,
                 last_name: answer.newEmpLastName,
@@ -262,7 +262,7 @@ function updateEmpRole() {
     let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.roles_id, roles.title ";
     query += "FROM employee ";
     query += "INNER JOIN department ON employee.emp_dept = department.dept_name ";
-    query += "Inner JOIN roles ON department.id = roles.department_id ";
+    query += "INNER JOIN roles ON department.id = roles.department_id ";
 
     connection.query(query, function(err, results) {
         if (err) throw err;
@@ -283,7 +283,7 @@ using JavaScript's Array method push().  After that another function called "rol
                 choices: function() {
                     let choiceArray = [];
                         for (let i=1; i < results.length; i++) {
-                            let emp = "";
+                            let emp = " ";
                             emp = `${results[i].id} ${results[i].first_name} ${results[i].last_name} ${results[i].dept_name} ${results[i].roles_id} ${results[i].title}`
                             choiceArray.push(emp)
                         }

@@ -10,7 +10,7 @@ a maximum length of 30 characters.  The utilized_budget column is decimal and ha
 auto-incrementing integer value that starts at 1. */
 
 CREATE TABLE department (
-    id INT NOT NULL AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     dept_name VARCHAR(30) NOT NULL,
     budget DECIMAL,
     PRIMARY KEY (id)
@@ -23,7 +23,7 @@ column which references the department ID of each employee's record in the datab
  one for employees who work at departments with IDs 1 through 10 and another for employees who work at departments with IDs 11 through 20. */
 
 CREATE TABLE roles (
-    id INT NOT NULL AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     title VARCHAR(30),
     salary DECIMAL,
     department_id INT,
@@ -36,7 +36,7 @@ This creates a table called employee.  It has the following columns: id, first_n
 The Foreign Key (manager_id) References employee (id), the Foreign Key (roles_id) References roles (id).*/
 
 CREATE TABLE employee (
-    id INT NOT NULL AUTO_INCREMENT,
+    id INT AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     emp_dept VARCHAR(30) NOT NULL,
@@ -52,6 +52,6 @@ CREATE TABLE employee (
  This creates a table called manager.  It has an id column and mgr_name column. */
 
 CREATE TABLE manager (
-    id INT NOT NULL,
+    id INT,
     mgr_name VARCHAR(30) NOT NULL
 );
