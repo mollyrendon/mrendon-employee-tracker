@@ -325,9 +325,9 @@ function updateToChosenRole(answer) {
         newDept = "Medical Personel";
         newMgr = 1;
     }
-    if (answer.roleUpdate === "Assistants") {
+    if (answer.roleUpdate === "Diplomat Assistants") {
         newRoleId = 5;
-        newDept = "Diplomat Assistants";
+        newDept = "Assistants";
         newMgr = 2;
     }
     if (answer.roleUpdate === "Ranger") {
