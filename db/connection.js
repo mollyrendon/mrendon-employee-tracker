@@ -315,14 +315,14 @@ function updateToChosenRole(answer) {
         newDept = "Diplomatic Relations";
         newMgr = 2;
     }
-    if (answer.roleUpdate === "Ship Security") {
+    if (answer.roleUpdate === "Security Officer") {
         newRoleId = 3;
-        newDept = "Security Officer";
+        newDept = "Ship Security";
         newMgr = 3;
     }
-    if (answer.roleUpdate === "Medical Personel") {
+    if (answer.roleUpdate === "Doctor") {
         newRoleId = 4;
-        newDept = "Doctor";
+        newDept = "Medical Personel";
         newMgr = 1;
     }
     if (answer.roleUpdate === "Assistants") {
@@ -330,9 +330,9 @@ function updateToChosenRole(answer) {
         newDept = "Diplomat Assistants";
         newMgr = 2;
     }
-    if (answer.roleUpdate === "Anlashok") {
+    if (answer.roleUpdate === "Ranger") {
         newRoleId = 6;
-        newDept = "Ranger";
+        newDept = "Anlashok";
         newMgr = 2;
     }
 
