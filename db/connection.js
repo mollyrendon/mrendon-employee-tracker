@@ -96,7 +96,7 @@ function viewDepartments() {
 }
 
 /*View Employees Function:
-The function queries the database for all employees and all related information, id, first_name, last_name, dept_name, salary, roles_title and mrg_name.  It uses the INNER JOIN statement to join the 
+The function queries the database for all employees and all related information, id, first_name, last_name, dept_name, salary, roles_title and mrg_name. 
 */
 function viewEmployees() {
     let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.salary, roles.title, mgr_name ";
@@ -114,7 +114,7 @@ function viewEmployees() {
 
 /*View Employees by Department Function:
 This function queries the database for all of the employees in a given department.  The code first creates a query that will 
-return the employee's ID, first_name, last_name, and salary. It then finds the department by using a join statement, INNER JOIN, with another table called "department"
+return the employee's ID, first_name, last_name, and salary. It then finds the department by using a join statement, INNER JOIN, with another table called "employee"
 and then orders them, ORDER BY statement, by their department number.  
 
 */
@@ -134,7 +134,7 @@ function viewEmpsByDept() {
 
 /*View Employees by Manager Function:
 This function queries the database for all of the employees who are managed by a given manager.  The two tables, employee info and manager info, are joined together using INNER JOIN so that each row has both
-colums filled out with data from both tables, the id column is shared between then.  It then orders these row alphabeticalled based on their mgr_name field using ORDER BY class at the end of the statement.  This will
+colums filled out with data from both tables, the id column is shared between then.  It then orders these row alphabetically based on their mgr_name field using ORDER BY class at the end of the statement.  This will
 print out a table of employees by their manager.  
 */
 function viewEmpsByMgr() {
@@ -151,8 +151,7 @@ function viewEmpsByMgr() {
 
 
 /*Add Employee Function:
-This function will use the inquirer prompt to ask the user several questions to add a new employee.
-It asks for the first name, last name, department, salary, and manager.  The department and manager prompts give the user
+This function will use the inquirer prompt to ask the user several questions to add a new employee.  It asks for the first name, last name, department, salary, and manager.  The department and manager prompts give the user
 a list to choose options from and the rest of the prompts are input prompts for the user to type their answers.
 */
 function addEmployees() {
@@ -260,7 +259,7 @@ This function queries the database to find all employees in a department and the
 The query then uses an OUTER JOIN statement to join the roles table with the department and employee tables.  
 */
 function updateEmpRole() {
-    let query = "SELECT employee.id, employee.first_name, employee.last_name, departmet.dept_name, employee.roles_id, roles.title ";
+    let query = "SELECT employee.id, employee.first_name, employee.last_name, department.dept_name, employee.roles_id, roles.title ";
     query += "FROM employee ";
     query += "INNER JOIN department ON employee.emp_dept = department.dept_name ";
     query += "Inner JOIN roles ON department.id = roles.department_id ";
@@ -284,7 +283,7 @@ using JavaScript's Array method push().  After that another function called "rol
                 choices: function() {
                     let choiceArray = [];
                         for (let i=1; i < results.length; i++) {
-                            let emp = "";
+                            let emp = " ";
                             emp = `${results[i].id} ${results[i].first_name} ${results[i].last_name} ${results[i].dept_name} ${results[i].roles_id} ${results[i].title}`
                             choiceArray.push(emp)
                         }
@@ -351,9 +350,9 @@ the employee is deleted and the console.log message informing the user appears. 
 */
 
 function deleteRemovedEmp(answer) {
-    let choiceStr = answer.choice.split("");
+    let choiceStr = answer.choice.split(" ");
     connection.query(
-        "DELETE FROM employee WHERE?",
+        "DELETE FROM employee WHERE ?",
         [
             {
                 id: parseInt(choiceStr[0])
